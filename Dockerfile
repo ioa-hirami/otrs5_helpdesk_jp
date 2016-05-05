@@ -1,7 +1,10 @@
 FROM centos:centos7
 MAINTAINER Tomohisa Hirami<hirami@io-architect.com>
 
-RUN yum install -y httpd-2.2.15-47 rsyslog cronie crontabs cronie-anacron
+COPY httpd-2.4.6-40.el7.centos.x86_64.rpm /
+
+RUN yum install -y rsyslog cronie crontabs cronie-anacron
+RUN yum install -y httpd-2.4.6-40.el7.centos.x86_64.rpm
 
 RUN yum install -y epel-release && \
     yum install -y supervisor
