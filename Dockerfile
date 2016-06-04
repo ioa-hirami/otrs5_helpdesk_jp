@@ -52,5 +52,41 @@ RUN chown otrs.apache /opt/otrs/Kernel/Config/Files/ZZZAAuto.pm
 COPY otrs.sh /
 RUN chmod 755 /otrs.sh
 
+# Config Postfix
+RUN yum install -y postfix
+COPY main.cf /etc/postfix/
+
+RUN useradd -m cust01 && useradd -m cust02 && useradd -m cust03 && useradd -m cust04 && useradd -m cust05
+RUN echo cust01 | passwd --stdin cust01
+RUN echo cust02 | passwd --stdin cust02
+RUN echo cust03 | passwd --stdin cust03
+RUN echo cust04 | passwd --stdin cust04
+
+RUN useradd -m helpdesk
+RUN echo helpdesk | passwd --stdin helpdesk
+
+# Config Dovecot
+RUN yum install -y dovecot
+COPY dovecot.conf /etc/dovecot/
+COPY 10-mail.conf /etc/dovecot/conf.d/
+COPY supervisord.d/dovecot.ini /etc/supervisord.d/
+
+
+# Squirrelmail
+RUN yum install -y squirrelmail
+COPY config.php /etc/squirrelmail/
+RUN chown root.apache /etc/squirrelmail/config.php
+COPY squirrelmail.conf /etc/httpd/conf.d/
+
+# 日本語対応
+# http://taka2.info/20120705/squirrelmail-php54/
+#
+RUN find /usr/share/squirrelmail -name '*.php' -print \
+ | xargs egrep -l 'htmlspecialchars *\([^\)]' \
+ | egrep -v 'global.php|configtest.php|login.php|class/|contrib/' \
+ | xargs perl -i.bak -pe 's/htmlspecialchars *\([^\)]/sq_$&/'
+COPY ext_i18n.php /
+RUN cat /ext_i18n.php >> /usr/share/squirrelmail/functions/i18n.php
+
 EXPOSE 80
 CMD ["/otrs.sh"]
