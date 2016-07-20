@@ -7,6 +7,61 @@ no warnings 'redefine';
 use utf8;
 sub Load {
     my ($File, $Self) = @_;
+$Self->{'Ticket::Frontend::ZoomCollectMeta'} =  '0';
+$Self->{'LinkObject::ComplexTable'}->{'Ticket'} =  {
+  'DefaultColumns' => {
+    'Age' => '1',
+    'Changed' => '1',
+    'Created' => '2',
+    'CustomerID' => '1',
+    'CustomerName' => '1',
+    'CustomerUserID' => '1',
+    'EscalationResponseTime' => '1',
+    'EscalationSolutionTime' => '1',
+    'EscalationTime' => '1',
+    'EscalationUpdateTime' => '1',
+    'Lock' => '1',
+    'Owner' => '1',
+    'PendingTime' => '1',
+    'Priority' => '1',
+    'Queue' => '2',
+    'Responsible' => '1',
+    'SLA' => '1',
+    'Service' => '1',
+    'State' => '2',
+    'TicketNumber' => '2',
+    'Title' => '2',
+    'Type' => '1'
+  },
+  'Module' => 'Kernel::Output::HTML::LinkObject::Ticket.pm',
+  'Priority' => {
+    'Age' => '110',
+    'Changed' => '120',
+    'Created' => '310',
+    'CustomerID' => '240',
+    'CustomerName' => '250',
+    'CustomerUserID' => '260',
+    'EscalationResponseTime' => '160',
+    'EscalationSolutionTime' => '150',
+    'EscalationTime' => '140',
+    'EscalationUpdateTime' => '170',
+    'Lock' => '200',
+    'Owner' => '220',
+    'PendingTime' => '130',
+    'Priority' => '300',
+    'Queue' => '210',
+    'Responsible' => '230',
+    'SLA' => '290',
+    'Service' => '280',
+    'State' => '190',
+    'TicketNumber' => '100',
+    'Title' => '180',
+    'Type' => '270'
+  }
+};
+$Self->{'LinkObject::ComplexTable::SettingsVisibility'}->{'Ticket'} =  [
+  'AgentTicketZoom'
+];
 $Self->{'Ticket::Frontend::DefaultSenderDisplayType'} =  'Realname';
 $Self->{'Ticket::Frontend::DefaultRecipientDisplayType'} =  'Realname';
 $Self->{'Frontend::NavBarModule'}->{'7-AgentTicketService'} =  {
@@ -899,6 +954,7 @@ $Self->{'Events'}->{'Ticket'} =  [
 $Self->{'Ticket::IncludeUnknownTicketCustomers'} =  '0';
 $Self->{'Ticket::UnlockOnAway'} =  '1';
 $Self->{'Ticket::GenericAgentRunLimit'} =  '4000';
+$Self->{'Ticket::GenericAgentTicketSearch'}->{'ExtendedSearchCondition'} =  '1';
 $Self->{'Ticket::EventModulePost'}->{'900-GenericAgent'} =  {
   'Event' => '',
   'Module' => 'Kernel::System::Ticket::Event::GenericAgent',
@@ -1384,12 +1440,16 @@ $Self->{'Frontend::Module'}->{'AgentTicketZoom'} =  {
   'Loader' => {
     'CSS' => [
       'Core.Agent.TicketProcess.css',
-      'Core.Agent.TicketMenuModuleCluster.css'
+      'Core.Agent.TicketMenuModuleCluster.css',
+      'Core.AllocationList.css'
     ],
     'JavaScript' => [
       'thirdparty/jquery-tablesorter-2.0.5/jquery.tablesorter.js',
+      'Core.Agent.TicketZoom.js',
+      'Core.UI.AllocationList.js',
       'Core.UI.Table.Sort.js',
-      'Core.Agent.TicketZoom.js'
+      'Core.Agent.TableFilters.js',
+      'Core.Agent.LinkObject.js'
     ]
   },
   'NavBarName' => 'Ticket',
@@ -1908,6 +1968,7 @@ $Self->{'AgentCustomerInformationCenter::Backend'}->{'0130-CIC-TicketOpen'} =  {
     'Age' => '2',
     'Changed' => '1',
     'Created' => '1',
+    'CustomerCompanyName' => '1',
     'CustomerID' => '1',
     'CustomerName' => '1',
     'CustomerUserID' => '1',
@@ -1946,6 +2007,7 @@ $Self->{'AgentCustomerInformationCenter::Backend'}->{'0120-CIC-TicketNew'} =  {
     'Age' => '2',
     'Changed' => '1',
     'Created' => '1',
+    'CustomerCompanyName' => '1',
     'CustomerID' => '1',
     'CustomerName' => '1',
     'CustomerUserID' => '1',
@@ -1984,6 +2046,7 @@ $Self->{'AgentCustomerInformationCenter::Backend'}->{'0110-CIC-TicketEscalation'
     'Age' => '2',
     'Changed' => '1',
     'Created' => '1',
+    'CustomerCompanyName' => '1',
     'CustomerID' => '1',
     'CustomerName' => '1',
     'CustomerUserID' => '1',
@@ -2022,6 +2085,7 @@ $Self->{'AgentCustomerInformationCenter::Backend'}->{'0100-CIC-TicketPendingRemi
     'Age' => '2',
     'Changed' => '1',
     'Created' => '1',
+    'CustomerCompanyName' => '1',
     'CustomerID' => '1',
     'CustomerName' => '1',
     'CustomerUserID' => '1',
@@ -2141,6 +2205,7 @@ $Self->{'DashboardBackend'}->{'0130-TicketOpen'} =  {
     'Age' => '2',
     'Changed' => '1',
     'Created' => '1',
+    'CustomerCompanyName' => '1',
     'CustomerID' => '1',
     'CustomerName' => '1',
     'CustomerUserID' => '1',
@@ -2179,6 +2244,7 @@ $Self->{'DashboardBackend'}->{'0120-TicketNew'} =  {
     'Age' => '2',
     'Changed' => '1',
     'Created' => '1',
+    'CustomerCompanyName' => '1',
     'CustomerID' => '1',
     'CustomerName' => '1',
     'CustomerUserID' => '1',
@@ -2217,6 +2283,7 @@ $Self->{'DashboardBackend'}->{'0110-TicketEscalation'} =  {
     'Age' => '2',
     'Changed' => '1',
     'Created' => '1',
+    'CustomerCompanyName' => '1',
     'CustomerID' => '1',
     'CustomerName' => '1',
     'CustomerUserID' => '1',
@@ -2255,6 +2322,7 @@ $Self->{'DashboardBackend'}->{'0100-TicketPendingReminder'} =  {
     'Age' => '2',
     'Changed' => '1',
     'Created' => '1',
+    'CustomerCompanyName' => '1',
     'CustomerID' => '1',
     'CustomerName' => '1',
     'CustomerUserID' => '1',
@@ -4852,7 +4920,7 @@ $Self->{'Daemon::SchedulerCronTaskManager::Task'}->{'EscalationCheck'} =  {
   'MaximumParallelInstances' => '1',
   'Module' => 'Kernel::System::Console::Command::Maint::Ticket::EscalationCheck',
   'Params' => [],
-  'Schedule' => '*/20 * * * *',
+  'Schedule' => '*/5 * * * *',
   'TaskName' => 'EscalationCheck'
 };
 $Self->{'Daemon::SchedulerCronTaskManager::Task'}->{'GenerateDashboardStats'} =  {
@@ -5120,6 +5188,7 @@ $Self->{'Loader::Agent::CommonJS'}->{'000-Framework'} =  [
   'Core.UI.Accordion.js',
   'Core.UI.Datepicker.js',
   'Core.UI.DnD.js',
+  'Core.UI.Floater.js',
   'Core.UI.Resizable.js',
   'Core.UI.Table.js',
   'Core.UI.Accessibility.js',
@@ -5256,6 +5325,7 @@ $Self->{'Frontend::Module'}->{'AgentStatistics'} =  {
     'JavaScript' => [
       'thirdparty/d3-3.5.6/d3.min.js',
       'thirdparty/nvd3-1.7.1/nvd3.min.js',
+      'thirdparty/nvd3-1.7.1/models/OTRSLineChart.js',
       'thirdparty/nvd3-1.7.1/models/OTRSMultiBarChart.js',
       'thirdparty/nvd3-1.7.1/models/OTRSStackedAreaChart.js',
       'thirdparty/canvg-1.4/rgbcolor.js',
@@ -5982,6 +6052,7 @@ $Self->{'Frontend::Module'}->{'AgentDashboard'} =  {
       'thirdparty/fullcalendar-2.4.0/fullcalendar.min.js',
       'thirdparty/d3-3.5.6/d3.min.js',
       'thirdparty/nvd3-1.7.1/nvd3.min.js',
+      'thirdparty/nvd3-1.7.1/models/OTRSLineChart.js',
       'thirdparty/nvd3-1.7.1/models/OTRSMultiBarChart.js',
       'thirdparty/nvd3-1.7.1/models/OTRSStackedAreaChart.js',
       'thirdparty/canvg-1.4/rgbcolor.js',
@@ -6372,6 +6443,7 @@ $Self->{'SpellChecker'} =  '0';
 $Self->{'SwitchToCustomer::PermissionGroup'} =  'admin';
 $Self->{'SwitchToCustomer'} =  '0';
 $Self->{'SwitchToUser'} =  '0';
+$Self->{'OutOfOfficeMessageTemplate'} =  '*** out of office until %s (%s d left) ***';
 $Self->{'DemoSystem'} =  '0';
 $Self->{'ShowMotd'} =  '0';
 $Self->{'LostPassword'} =  '1';
@@ -7617,6 +7689,7 @@ $Self->{'ProductName'} =  'OTRS 5';
 $Self->{'ConfigImportAllowed'} =  '1';
 $Self->{'ConfigLevel'} =  '100';
 $Self->{'Frontend::TemplateCache'} =  '1';
+$Self->{'Frontend::AjaxDebug'} =  '0';
 $Self->{'Frontend::DebugMode'} =  '0';
 $Self->{'SecureMode'} =  '0';
 }
