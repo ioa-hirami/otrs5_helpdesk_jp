@@ -43,10 +43,9 @@ RUN /mysql_init.sh
 COPY Config.pm /opt/otrs/Kernel/
 RUN chown otrs.apache /opt/otrs/Kernel/Config.pm
 
-COPY ZZZAuto.pm /opt/otrs/Kernel/Config/Files/
-COPY ZZZAAuto.pm /opt/otrs/Kernel/Config/Files/
-RUN chown otrs.apache /opt/otrs/Kernel/Config/Files/ZZZAuto.pm
-RUN chown otrs.apache /opt/otrs/Kernel/Config/Files/ZZZAAuto.pm
+COPY ZZZAuto.pm ZZZAAuto.pm /opt/otrs/Kernel/Config/Files/
+RUN chown otrs.apache /opt/otrs/Kernel/Config/Files/ZZZAuto.pm /opt/otrs/Kernel/Config/Files/ZZZAAuto.pm
+RUN chmod 660 /opt/otrs/Kernel/Config/Files/ZZZAuto.pm /opt/otrs/Kernel/Config/Files/ZZZAAuto.pm
 
 
 COPY otrs.sh /
