@@ -1,12 +1,12 @@
 お試し用のOTRS5 Helpdeskイメージです。
 
-OTRS 5.0.9 helpdesk
+OTRS 5.0.11 helpdesk
 Mysql 5.7.12
 
 実行は以下のようにしてください。
-docker run -d -p <ポート>:80 docker.io/hirami/otrs5_helpdesk_jp
+docker run -d -p <ポート>:80 docker.io/ioarchitectjp/otrs5_helpdesk_jp
 もしくは
-docker run -d -p <ポート>:80 hirami/otrs5_helpdesk_jp
+docker run -d -p <ポート>:80 ioarchitectjp/otrs5_helpdesk_jp
 
 コンテナ起動後、以下のURLでログイン画面にアクセスできます。
 http://<ホストのIP>:<ポート>/otrs/index.pl
@@ -24,12 +24,11 @@ cust01/cust01
 cust02/cust02
 cust03/cust03
 cust04/cust04
-cust05/cust05
 
 初期状態ではOTRSヘルプデスクのメールアドレスは以下の通りです。
 helpdesk@eval-mail.local.domain
 
-cust01〜cust05でWebメーラーにログインし、上のアドレスに対してメールを送るとOTRSに取り込まれます(5分ほどかかります)。また、OTRSからメールの返信を行うことができますので、メール関連の操作についてもお試しいただけるかと思います。
+cust01〜cust04でWebメーラーにログインし、上のアドレスに対してメールを送るとOTRSに取り込まれます(5分ほどかかります)。また、OTRSからメールの返信を行うことができますので、メール関連の操作についてもお試しいただけるかと思います。
 
 
 ・「OTRSデーモンが起動していません」のメッセージは5〜10分ぐらい経つと消えます。
