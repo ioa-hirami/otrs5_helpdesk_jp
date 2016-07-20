@@ -16,7 +16,7 @@ echo 'password="otrs-ioa"' >> /root/.my.cnf
 echo "Set mysql root password to 'otrs-ioa'"
 
 echo "Create database & user."
-echo "create database otrs;" | mysql
+echo "create database otrs default character set utf8;" | mysql
 echo "grant all on otrs.* to otrs@localhost identified by 'otrs-ioa';" | mysql
 
 echo "Restore otrs database. Wait a moment..."
