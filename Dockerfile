@@ -60,9 +60,17 @@ RUN echo cust01 | passwd --stdin cust01
 RUN echo cust02 | passwd --stdin cust02
 RUN echo cust03 | passwd --stdin cust03
 RUN echo cust04 | passwd --stdin cust04
+RUN echo cust05 | passwd --stdin cust05
 
 RUN useradd -m helpdesk
 RUN echo helpdesk | passwd --stdin helpdesk
+
+RUN useradd -m agent01 && useradd -m agent02 && useradd -m agent03 && useradd -m agent04 && useradd -m agent05
+RUN echo agent01 | passwd --stdin agent01
+RUN echo agent02 | passwd --stdin agent02
+RUN echo agent03 | passwd --stdin agent03
+RUN echo agent04 | passwd --stdin agent04
+RUN echo agent05 | passwd --stdin agent05
 
 # Config Dovecot
 RUN yum install -y dovecot
