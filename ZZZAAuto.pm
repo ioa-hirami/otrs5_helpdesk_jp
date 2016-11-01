@@ -555,6 +555,9 @@ $Self->{'PostMaster::CheckFollowUpModule'}->{'0200-References'} =  {
 $Self->{'PostMaster::CheckFollowUpModule'}->{'0100-Subject'} =  {
   'Module' => 'Kernel::System::PostMaster::FollowUpCheck::Subject'
 };
+$Self->{'PostMaster::PreFilterModule'}->{'000-SMIMEFetchFromCustomer'} =  {
+  'Module' => 'Kernel::System::PostMaster::Filter::SMIMEFetchFromCustomer'
+};
 $Self->{'PostMaster::PostFilterModule'}->{'000-FollowUpArticleTypeCheck'} =  {
   'ArticleType' => 'email-internal',
   'Module' => 'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck',
@@ -638,7 +641,8 @@ $Self->{'PostmasterX-Header'} =  [
   'X-OTRS-FollowUp-Service',
   'X-OTRS-FollowUp-SLA',
   'X-OTRS-FollowUp-SenderType',
-  'X-OTRS-FollowUp-ArticleType'
+  'X-OTRS-FollowUp-ArticleType',
+  'X-OTRS-BodyDecrypted'
 ];
 $Self->{'PostmasterHeaderFieldCount'} =  '12';
 $Self->{'PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner'} =  '0';
@@ -682,10 +686,7 @@ $Self->{'ACLKeysLevel3::Actions'}->{'100-Default'} =  [
   'AgentTicketWatcher',
   'AgentTicketZoom',
   'AgentLinkObject',
-  'CustomerTicketMessage',
-  'CustomerTicketPrint',
-  'CustomerTicketProcess',
-  'CustomerTicketZoom'
+  'CustomerTicketProcess'
 ];
 $Self->{'ACLKeysLevel2::PropertiesDatabase'} =  {
   'CustomerUser' => 'CustomerUser',
@@ -1932,7 +1933,7 @@ $Self->{'PreferencesGroups'}->{'RefreshTime'} =  {
 $Self->{'PreferencesGroups'}->{'CustomService'} =  {
   'Active' => '1',
   'Column' => 'Notification Settings',
-  'Desc' => 'Your service selection of your favorite services. You also get notified about those services via email if enabled.',
+  'Desc' => 'Your service selection of your preferred services. You also get notified about those services via email if enabled.',
   'Key' => '',
   'Label' => 'My Services',
   'Module' => 'Kernel::Output::HTML::Preferences::CustomService',
@@ -1941,7 +1942,7 @@ $Self->{'PreferencesGroups'}->{'CustomService'} =  {
 $Self->{'PreferencesGroups'}->{'CustomQueue'} =  {
   'Active' => '1',
   'Column' => 'Notification Settings',
-  'Desc' => 'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.',
+  'Desc' => 'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.',
   'Key' => '',
   'Label' => 'My Queues',
   'Module' => 'Kernel::Output::HTML::Preferences::CustomQueue',
@@ -3352,7 +3353,7 @@ $Self->{'Ticket::Frontend::Overview'}->{'Small'} =  {
   'Name' => 'Small',
   'NameShort' => 'S'
 };
-$Self->{'Ticket::EventModulePost'}->{'98-ArticleSearchIndex'} =  {
+$Self->{'Ticket::EventModulePost'}->{'098-ArticleSearchIndex'} =  {
   'Event' => '(ArticleCreate|ArticleUpdate)',
   'Module' => 'Kernel::System::Ticket::Event::ArticleSearchIndex'
 };
@@ -4274,19 +4275,19 @@ $Self->{'CustomerCompany::EventModulePost'}->{'110-UpdateTickets'} =  {
   'Module' => 'Kernel::System::CustomerCompany::Event::TicketUpdate',
   'Transaction' => '0'
 };
-$Self->{'Ticket::EventModulePost'}->{'920-TicketArticleNewMessageUpdate'} =  {
+$Self->{'Ticket::EventModulePost'}->{'940-TicketArticleNewMessageUpdate'} =  {
   'Event' => 'ArticleCreate|ArticleFlagSet',
   'Module' => 'Kernel::System::Ticket::Event::TicketNewMessageUpdate'
 };
-$Self->{'Ticket::EventModulePost'}->{'910-ForceUnlockOnMove'} =  {
+$Self->{'Ticket::EventModulePost'}->{'930-ForceUnlockOnMove'} =  {
   'Event' => 'TicketQueueUpdate',
   'Module' => 'Kernel::System::Ticket::Event::ForceUnlock'
 };
-$Self->{'Ticket::EventModulePost'}->{'900-EscalationStopEvents'} =  {
+$Self->{'Ticket::EventModulePost'}->{'920-EscalationStopEvents'} =  {
   'Event' => 'TicketSLAUpdate|TicketQueueUpdate|TicketStateUpdate|ArticleCreate',
   'Module' => 'Kernel::System::Ticket::Event::TriggerEscalationStopEvents'
 };
-$Self->{'Ticket::EventModulePost'}->{'900-EscalationIndex'} =  {
+$Self->{'Ticket::EventModulePost'}->{'910-EscalationIndex'} =  {
   'Event' => 'TicketSLAUpdate|TicketQueueUpdate|TicketStateUpdate|TicketCreate|ArticleCreate',
   'Module' => 'Kernel::System::Ticket::Event::TicketEscalationIndex'
 };
@@ -4464,7 +4465,7 @@ $Self->{'Process::DefaultState'} =  'new';
 $Self->{'Process::DefaultQueue'} =  'Raw';
 $Self->{'Process::DynamicFieldProcessManagementActivityID'} =  'ProcessManagementActivityID';
 $Self->{'Process::DynamicFieldProcessManagementProcessID'} =  'ProcessManagementProcessID';
-$Self->{'Ticket::EventModulePost'}->{'TicketProcessTransitions'} =  {
+$Self->{'Ticket::EventModulePost'}->{'998-TicketProcessTransitions'} =  {
   'Event' => '',
   'Module' => 'Kernel::System::Ticket::Event::TicketProcessTransitions',
   'Transaction' => '1'
@@ -4829,7 +4830,7 @@ $Self->{'Package::EventModulePost'}->{'1000-GenericInterface'} =  {
   'Module' => 'Kernel::GenericInterface::Event::Handler',
   'Transaction' => '1'
 };
-$Self->{'Ticket::EventModulePost'}->{'1000-GenericInterface'} =  {
+$Self->{'Ticket::EventModulePost'}->{'999-GenericInterface'} =  {
   'Event' => '',
   'Module' => 'Kernel::GenericInterface::Event::Handler',
   'Transaction' => '1'
@@ -4866,6 +4867,14 @@ $Self->{'Daemon::SchedulerCronTaskManager::Task'}->{'RegistrationUpdateSend'} = 
   'Params' => [],
   'Schedule' => '30 * * * *',
   'TaskName' => 'RegistrationUpdateSend'
+};
+$Self->{'Daemon::SchedulerCronTaskManager::Task'}->{'RenewCustomerSMIMECertificates'} =  {
+  'Function' => 'Execute',
+  'MaximumParallelInstances' => '1',
+  'Module' => 'Kernel::System::Console::Command::Maint::SMIME::CustomerCertificate::Renew',
+  'Params' => [],
+  'Schedule' => '02 02 * * *',
+  'TaskName' => 'RenewCustomerSMIMECertificates'
 };
 $Self->{'Daemon::SchedulerCronTaskManager::Task'}->{'TicketUnlockTimeout'} =  {
   'Function' => 'Execute',
@@ -5540,6 +5549,16 @@ $Self->{'Frontend::Module'}->{'AdminSupportDataCollector'} =  {
   },
   'NavBarName' => 'Admin',
   'Title' => 'Support Data Collector'
+};
+$Self->{'Frontend::Module'}->{'AgentOTRSBusiness'} =  {
+  'Description' => 'Agent',
+  'Loader' => {
+    'CSS' => [
+      'Core.Agent.Admin.OTRSBusiness.css'
+    ]
+  },
+  'NavBarName' => '',
+  'Title' => 'OTRS Business Solution™'
 };
 $Self->{'Frontend::Module'}->{'AdminOTRSBusiness'} =  {
   'Description' => 'Admin',
@@ -6364,6 +6383,7 @@ If you did not request a new password, please ignore this email.
 $Self->{'NotificationSubjectLostPasswordToken'} =  'New OTRS password request';
 $Self->{'NotificationSenderEmail'} =  'otrs@<OTRS_CONFIG_FQDN>';
 $Self->{'NotificationSenderName'} =  'OTRS Notifications';
+$Self->{'SMIME::FetchFromCustomer'} =  '0';
 $Self->{'SMIME::StoreDecryptedData'} =  '1';
 $Self->{'SMIME::CacheTTL'} =  '86400';
 $Self->{'SMIME::PrivatePath'} =  '/etc/ssl/private';
@@ -7510,6 +7530,9 @@ $Self->{'Frontend::NotifyModule'}->{'600-SystemMaintenance-Check'} =  {
 $Self->{'Frontend::NotifyModule'}->{'500-OutofOffice-Check'} =  {
   'Module' => 'Kernel::Output::HTML::Notification::OutofOfficeCheck'
 };
+$Self->{'Frontend::NotifyModule'}->{'250-AgentSessionLimit'} =  {
+  'Module' => 'Kernel::Output::HTML::Notification::AgentSessionLimit'
+};
 $Self->{'Frontend::NotifyModule'}->{'200-UID-Check'} =  {
   'Module' => 'Kernel::Output::HTML::Notification::UIDCheck'
 };
@@ -7560,8 +7583,10 @@ $Self->{'Frontend::MenuDragDropEnabled'} =  '1';
 $Self->{'Frontend::AnimationEnabled'} =  '1';
 $Self->{'DefaultViewLines'} =  '6000';
 $Self->{'DefaultViewNewLine'} =  '90';
+$Self->{'DisableContentSecurityPolicy'} =  '0';
 $Self->{'DisableIFrameOriginRestricted'} =  '0';
 $Self->{'DisableMSIFrameSecurityRestricted'} =  '0';
+$Self->{'Frontend::RichText::EnhancedMode::Customer'} =  '0';
 $Self->{'Frontend::RichText::EnhancedMode'} =  '0';
 $Self->{'Frontend::RichText::DefaultCSS'} =  'font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;';
 $Self->{'Frontend::RichTextHeight'} =  '320';
@@ -7605,6 +7630,7 @@ $Self->{'DefaultUsedLanguagesNative'} =  {
   'hi' => 'हिन्दी',
   'hr' => 'Hrvatski',
   'hu' => 'Magyar',
+  'id' => 'Bahasa Indonesia',
   'it' => 'Italiano',
   'ja' => '日本語',
   'lt' => 'Lietuvių kalba',
@@ -7653,6 +7679,7 @@ $Self->{'DefaultUsedLanguages'} =  {
   'hi' => 'Hindi',
   'hr' => 'Croatian',
   'hu' => 'Hungarian',
+  'id' => 'Indonesian',
   'it' => 'Italian',
   'ja' => 'Japanese',
   'lt' => 'Lithuanian',
@@ -7685,7 +7712,7 @@ $Self->{'HttpType'} =  'http';
 delete $Self->{'NodeID'};
 $Self->{'FQDN'} =  'yourhost.example.com';
 $Self->{'SystemID'} =  '10';
-$Self->{'ProductName'} =  'OTRS 5';
+$Self->{'ProductName'} =  'OTRS 5s';
 $Self->{'ConfigImportAllowed'} =  '1';
 $Self->{'ConfigLevel'} =  '100';
 $Self->{'Frontend::TemplateCache'} =  '1';

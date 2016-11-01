@@ -8,6 +8,7 @@ RUN yum install -y epel-release && \
     yum install -y supervisor
 
 RUN cp /usr/share/zoneinfo/Japan /etc/localtime
+RUN localedef -f UTF-8 -i ja_JP ja_JP.UTF-8
 
 COPY mysql57-community-release-el7-8.noarch.rpm /
 RUN yum install -y mysql57-community-release-el7-8.noarch.rpm
@@ -22,10 +23,10 @@ RUN yum install -y "perl(Crypt::Eksblowfish::Bcrypt)" && \
     yum install -y "perl(Text::CSV_XS)" && \
     yum install -y "perl(YAML::XS)"
 
-RUN curl -o /otrs-5.0.11-01.noarch.rpm http://ftp.otrs.org/pub/otrs/RPMS/rhel/7/otrs-5.0.11-01.noarch.rpm
+RUN curl -o /otrs-5.0.14-02.noarch.rpm http://ftp.otrs.org/pub/otrs/RPMS/rhel/7/otrs-5.0.14-02.noarch.rpm
 #COPY otrs-5.0.9-01.noarch.rpm /
 
-RUN yum install -y otrs-5.0.11-01.noarch.rpm
+RUN yum install -y otrs-5.0.14-02.noarch.rpm
 
 COPY supervisord.conf /etc/
 COPY supervisord.d/httpd.ini /etc/supervisord.d/
