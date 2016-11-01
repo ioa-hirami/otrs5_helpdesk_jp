@@ -1,6 +1,6 @@
 お試し用のOTRS5 Helpdeskイメージです。
 
-OTRS 5.0.11 helpdesk
+OTRS 5.0.14 helpdesk (OTRS5s)
 Mysql 5.7.12
 
 実行は以下のようにしてください。
