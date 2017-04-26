@@ -558,7 +558,7 @@ $Self->{'PostMaster::CheckFollowUpModule'}->{'0100-Subject'} =  {
 $Self->{'PostMaster::PreFilterModule'}->{'000-SMIMEFetchFromCustomer'} =  {
   'Module' => 'Kernel::System::PostMaster::Filter::SMIMEFetchFromCustomer'
 };
-$Self->{'PostMaster::PostFilterModule'}->{'000-FollowUpArticleTypeCheck'} =  {
+$Self->{'PostMaster::PreCreateFilterModule'}->{'000-FollowUpArticleTypeCheck'} =  {
   'ArticleType' => 'email-internal',
   'Module' => 'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck',
   'SenderType' => 'customer'
@@ -683,6 +683,7 @@ $Self->{'ACLKeysLevel3::Actions'}->{'100-Default'} =  [
   'AgentTicketPriority',
   'AgentTicketProcess',
   'AgentTicketResponsible',
+  'AgentTicketSearch',
   'AgentTicketWatcher',
   'AgentTicketZoom',
   'AgentLinkObject',
@@ -1749,6 +1750,7 @@ $Self->{'CustomerPreferencesGroups'}->{'RefreshTime'} =  {
     '7' => ' 7 minutes'
   },
   'DataSelected' => '0',
+  'Desc' => 'Select after which period ticket overviews should refresh automatically.',
   'Key' => 'Refresh interval',
   'Label' => 'Ticket overview',
   'Module' => 'Kernel::Output::HTML::Preferences::Generic',
@@ -1765,6 +1767,7 @@ $Self->{'CustomerPreferencesGroups'}->{'ShownTickets'} =  {
     '30' => '30'
   },
   'DataSelected' => '25',
+  'Desc' => 'Select how many tickets should be shown in overviews by default.',
   'Key' => 'Tickets per page',
   'Label' => 'Number of displayed tickets',
   'Module' => 'Kernel::Output::HTML::Preferences::Generic',
@@ -4502,7 +4505,7 @@ $Self->{'Frontend::NavBarModule'}->{'1-TicketProcesses'} =  {
   'Module' => 'Kernel::Output::HTML::NavBar::AgentTicketProcess'
 };
 $Self->{'Frontend::Module'}->{'AdminProcessManagementPath'} =  {
-  'Description' => 'Admin',
+  'Description' => 'This module is part of the admin area of OTRS.',
   'Group' => [
     'admin'
   ],
@@ -4519,7 +4522,7 @@ $Self->{'Frontend::Module'}->{'AdminProcessManagementPath'} =  {
   'Title' => 'Process Management Path GUI'
 };
 $Self->{'Frontend::Module'}->{'AdminProcessManagementTransitionAction'} =  {
-  'Description' => 'Admin',
+  'Description' => 'This module is part of the admin area of OTRS.',
   'Group' => [
     'admin'
   ],
@@ -4534,7 +4537,7 @@ $Self->{'Frontend::Module'}->{'AdminProcessManagementTransitionAction'} =  {
   'Title' => 'Process Management Transition Action GUI'
 };
 $Self->{'Frontend::Module'}->{'AdminProcessManagementTransition'} =  {
-  'Description' => 'Admin',
+  'Description' => 'This module is part of the admin area of OTRS.',
   'Group' => [
     'admin'
   ],
@@ -4549,7 +4552,7 @@ $Self->{'Frontend::Module'}->{'AdminProcessManagementTransition'} =  {
   'Title' => 'Process Management Transition GUI'
 };
 $Self->{'Frontend::Module'}->{'AdminProcessManagementActivityDialog'} =  {
-  'Description' => 'Admin',
+  'Description' => 'This module is part of the admin area of OTRS.',
   'Group' => [
     'admin'
   ],
@@ -4566,7 +4569,7 @@ $Self->{'Frontend::Module'}->{'AdminProcessManagementActivityDialog'} =  {
   'Title' => 'Process Management Activity Dialog GUI'
 };
 $Self->{'Frontend::Module'}->{'AdminProcessManagementActivity'} =  {
-  'Description' => 'Admin',
+  'Description' => 'This module is part of the admin area of OTRS.',
   'Group' => [
     'admin'
   ],
@@ -4583,7 +4586,7 @@ $Self->{'Frontend::Module'}->{'AdminProcessManagementActivity'} =  {
   'Title' => 'Process Management Activity GUI'
 };
 $Self->{'Frontend::Module'}->{'AdminProcessManagement'} =  {
-  'Description' => 'Admin',
+  'Description' => 'This module is part of the admin area of OTRS.',
   'Group' => [
     'admin'
   ],
@@ -5290,6 +5293,7 @@ $Self->{'DashboardBackend'}->{'0000-ProductNotify'} =  {
   'Title' => 'Product News'
 };
 $Self->{'LanguageDebug'} =  '0';
+$Self->{'Stats::CustomerUserLoginsAsMultiSelect'} =  '0';
 $Self->{'Stats::CustomerIDAsMultiSelect'} =  '1';
 $Self->{'Stats::UseInvalidAgentInStats'} =  '1';
 $Self->{'Stats::UseAgentElementInStats'} =  '0';
@@ -6144,6 +6148,7 @@ $Self->{'CustomerPreferencesGroups'}->{'Theme'} =  {
 $Self->{'CustomerPreferencesGroups'}->{'Language'} =  {
   'Active' => '1',
   'Column' => 'User Profile',
+  'Desc' => 'Select the main interface language.',
   'Key' => 'Language',
   'Label' => 'Interface language',
   'Module' => 'Kernel::Output::HTML::Preferences::Language',
@@ -6164,6 +6169,7 @@ $Self->{'CustomerPreferencesGroups'}->{'Password'} =  {
   'Active' => '1',
   'Area' => 'Customer',
   'Column' => 'Other Settings',
+  'Desc' => 'Set a new password by filling in your current password and a new one.',
   'Label' => 'Change password',
   'Module' => 'Kernel::Output::HTML::Preferences::Password',
   'PasswordMin2Characters' => '0',
@@ -6268,6 +6274,7 @@ $Self->{'PreferencesGroups'}->{'OutOfOffice'} =  {
   'Active' => '1',
   'Block' => 'OutOfOffice',
   'Column' => 'User Profile',
+  'Desc' => 'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.',
   'Key' => '',
   'Label' => 'Out Of Office Time',
   'Module' => 'Kernel::Output::HTML::Preferences::OutOfOffice',
@@ -6286,6 +6293,7 @@ $Self->{'PreferencesGroups'}->{'Theme'} =  {
 $Self->{'PreferencesGroups'}->{'Skin'} =  {
   'Active' => '1',
   'Column' => 'Other Settings',
+  'Desc' => 'Select your preferred layout for OTRS.',
   'Key' => 'Skin',
   'Label' => 'Skin',
   'Module' => 'Kernel::Output::HTML::Preferences::Skin',
@@ -6295,6 +6303,7 @@ $Self->{'PreferencesGroups'}->{'Skin'} =  {
 $Self->{'PreferencesGroups'}->{'Language'} =  {
   'Active' => '1',
   'Column' => 'User Profile',
+  'Desc' => 'Select the main interface language.',
   'Key' => 'Language',
   'Label' => 'Language',
   'Module' => 'Kernel::Output::HTML::Preferences::Language',
@@ -6328,6 +6337,7 @@ $Self->{'PreferencesGroups'}->{'Password'} =  {
   'Active' => '1',
   'Area' => 'Agent',
   'Column' => 'User Profile',
+  'Desc' => 'Set a new password by filling in your current password and a new one.',
   'Label' => 'Change password',
   'Module' => 'Kernel::Output::HTML::Preferences::Password',
   'PasswordMaxLoginFailed' => '0',
