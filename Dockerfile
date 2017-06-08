@@ -23,8 +23,8 @@ RUN yum install -y "perl(Crypt::Eksblowfish::Bcrypt)" && \
     yum install -y "perl(Text::CSV_XS)" && \
     yum install -y "perl(YAML::XS)"
 
-RUN curl -o /otrs-5.0.18-01.noarch.rpm http://ftp.otrs.org/pub/otrs/RPMS/rhel/7/otrs-5.0.18-01.noarch.rpm
-RUN yum install -y otrs-5.0.18-01.noarch.rpm
+RUN curl -o /otrs-5.0.20-01.noarch.rpm http://ftp.otrs.org/pub/otrs/RPMS/rhel/7/otrs-5.0.20-01.noarch.rpm
+RUN yum install -y otrs-5.0.20-01.noarch.rpm
 
 COPY supervisord.conf /etc/
 COPY supervisord.d/httpd.ini /etc/supervisord.d/
