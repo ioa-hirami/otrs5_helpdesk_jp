@@ -551,6 +551,7 @@ $Self->{'LinkObject::PossibleLink'}->{'0200'} =  {
 };
 $Self->{'AutoResponseForWebTickets'} =  '1';
 $Self->{'SendNoAutoResponseRegExp'} =  '(MAILER-DAEMON|postmaster|abuse)@.+?\\..+?';
+$Self->{'PostMaster::NewTicket::AutoAssignCustomerIDForUnknownCustomers'} =  '1';
 $Self->{'PostMaster::CheckFollowUpModule'}->{'0200-References'} =  {
   'Module' => 'Kernel::System::PostMaster::FollowUpCheck::References'
 };
@@ -5267,12 +5268,11 @@ $Self->{'DashboardBackend'}->{'0400-UserOnline'} =  {
   'Description' => '',
   'Filter' => 'Agent',
   'Group' => '',
-  'IdleMinutes' => '60',
   'Limit' => '10',
   'Module' => 'Kernel::Output::HTML::Dashboard::UserOnline',
   'ShowEmail' => '0',
   'SortBy' => 'UserFullname',
-  'Title' => 'Online'
+  'Title' => 'Logged-In Users'
 };
 $Self->{'DashboardBackend'}->{'0390-UserOutOfOffice'} =  {
   'Block' => 'ContentSmall',
@@ -5280,7 +5280,6 @@ $Self->{'DashboardBackend'}->{'0390-UserOutOfOffice'} =  {
   'Default' => '1',
   'Description' => '',
   'Group' => '',
-  'IdleMinutes' => '60',
   'Limit' => '10',
   'Module' => 'Kernel::Output::HTML::Dashboard::UserOutOfOffice',
   'SortBy' => 'UserFullname',
