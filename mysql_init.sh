@@ -1,13 +1,8 @@
 #! /bin/bash
 
-PASS=`tail -1 /root/.mysql_secret`
-
-echo "[client]" > /root/.my.cnf
-echo "password=\"$PASS\"" >> /root/.my.cnf
-
-
 /usr/sbin/mysqld --pid-file=/var/run/mysqld/mysqld.pid --user=root &
 sleep 20
+
 mysqladmin password otrs-ioa
 
 echo "[client]" > /root/.my.cnf

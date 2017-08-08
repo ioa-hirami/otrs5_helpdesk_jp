@@ -1,7 +1,7 @@
 お試し用のOTRS5 Helpdeskイメージです。
 
-rTRS 5.0.21 helpdesk (OTRS5s)
-Mysql 5.7.12
+OTRS 5.0.21 helpdesk (OTRS5s)
+Mysql 5.7.19
 
 実行は以下のようにしてください。
 docker run -d -p <ポート>:80 docker.io/ioarchitectjp/otrs5_helpdesk_jp
