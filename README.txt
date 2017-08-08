@@ -31,7 +31,6 @@ agent03/agent03
 agent04/agent04
 agent05/agent05
 
-
 初期状態ではOTRSヘルプデスクのメールアドレスは以下の通りです。
 helpdesk@eval-mail.local.domain
 
