@@ -3,6 +3,7 @@
 rm /var/run/httpd/httpd.pid
 rm /var/run/dovecot/master.pid
 rm /var/run/mysqld/mysqld.pid
+rm /var/lib/mysql/mysql.sock.lock
 
 /usr/bin/newaliases
 /usr/sbin/postfix start
