@@ -1,5 +1,9 @@
 #! /bin/bash
 
+rm /var/run/httpd/httpd.pid
+rm /var/run/dovecot/master.pid
+rm /var/run/mysqld/mysqld.pid
+
 /usr/bin/newaliases
 /usr/sbin/postfix start
 
