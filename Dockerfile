@@ -40,7 +40,7 @@ RUN yum install -y mysql57-community-release-el7-8.noarch.rpm && yum install -y 
     rm mysql57-community-release-el7-8.noarch.rpm
 
 COPY mysql_init.sh /
-RUN chmod 755 mysql_init.sh && /mysql_init.sh
+RUN chmod 755 mysql_init.sh ; sync ; /mysql_init.sh
 
 # OTRS
 
