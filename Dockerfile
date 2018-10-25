@@ -54,7 +54,7 @@ RUN yum install -y "perl(Crypt::Eksblowfish::Bcrypt)" && \
     yum install -y "perl(YAML::XS)"
 
 # RPMインストール
-ENV OTRS_RPM=otrs-5.0.23-01.noarch.rpm
+ENV OTRS_RPM=otrs-5.0.30-01.noarch.rpm
 RUN curl -o /$OTRS_RPM http://ftp.otrs.org/pub/otrs/RPMS/rhel/7/$OTRS_RPM && \
     yum install -y $OTRS_RPM && \
     rm /$OTRS_RPM

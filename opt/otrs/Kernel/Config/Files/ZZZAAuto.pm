@@ -272,6 +272,8 @@ $Self->{'Ticket::Frontend::AgentTicketStatusView'}->{'DefaultColumns'} =  {
 $Self->{'DefaultOverviewColumns'} =  {
   'Age' => '2',
   'Changed' => '1',
+  'Created' => '1',
+  'CustomerCompanyName' => '1',
   'CustomerID' => '2',
   'CustomerName' => '1',
   'CustomerUserID' => '1',
@@ -602,6 +604,7 @@ $Self->{'PostmasterX-Header'} =  [
   'In-Reply-To',
   'Auto-Submitted',
   'X-Loop',
+  'X-Spam',
   'X-Spam-Flag',
   'X-Spam-Level',
   'X-Spam-Score',
@@ -1843,8 +1846,8 @@ $Self->{'PreferencesGroups'}->{'CreateNextMask'} =  {
   'Active' => '1',
   'Column' => 'Other Settings',
   'Data' => {
-    '0' => 'CreateTicket',
-    'AgentTicketZoom' => 'TicketZoom'
+    '0' => 'Create Ticket',
+    'AgentTicketZoom' => 'Ticket Zoom'
   },
   'DataSelected' => '',
   'Desc' => 'Configure which screen should be shown after a new ticket has been created.',
@@ -2166,7 +2169,7 @@ $Self->{'DashboardBackend'}->{'0280-DashboardEventsTicketCalendar'} =  {
 };
 $Self->{'DashboardBackend'}->{'0270-TicketQueueOverview'} =  {
   'Block' => 'ContentLarge',
-  'CacheTTLLocal' => '0.5',
+  'CacheTTLLocal' => '2',
   'Default' => '1',
   'Description' => 'Provides a matrix overview of the tickets per state per queue.',
   'Group' => '',
@@ -6464,7 +6467,7 @@ $Self->{'Package::EventModulePost'}->{'99-SupportDataSend'} =  {
 $Self->{'Package::ShowFeatureAddons'} =  '1';
 $Self->{'Package::Timeout'} =  '120';
 $Self->{'Package::RepositoryRoot'} =  [
-  'http://ftp.otrs.org/pub/otrs/misc/packages/repository.xml'
+  'https://ftp.otrs.org/pub/otrs/misc/packages/repository.xml'
 ];
 $Self->{'Package::FileUpload'} =  '1';
 $Self->{'WebUserAgent::DisableSSLVerification'} =  '0';
@@ -7618,10 +7621,10 @@ $Self->{'Frontend::CSSPath'} =  '<OTRS_CONFIG_Frontend::WebPath>css/';
 $Self->{'Frontend::ImagePath'} =  '<OTRS_CONFIG_Frontend::WebPath>skins/Agent/default/img/';
 $Self->{'Frontend::WebPath'} =  '/otrs-web/';
 $Self->{'AgentLogo'} =  {
-  'StyleHeight' => '85px',
-  'StyleRight' => '38px',
-  'StyleTop' => '4px',
-  'StyleWidth' => '270px',
+  'StyleHeight' => '55px',
+  'StyleRight' => '24px',
+  'StyleTop' => '7px',
+  'StyleWidth' => '300px',
   'URL' => 'skins/Agent/default/img/logo_bg.png'
 };
 $Self->{'CustomerHeadline'} =  'Example Company';
